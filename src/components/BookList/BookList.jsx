@@ -14,7 +14,7 @@ const BookList = ({ books }) => {
                 ${new Date(book.createdAt).toLocaleDateString()}`}
               </p>
             </header>
-            <p>{book.description}</p>  {/* ✅ Correct field */}
+            <p>{book.description}</p>  
           </article>
         </Link>
       ))}
@@ -22,15 +22,14 @@ const BookList = ({ books }) => {
   );
 };
 
-// ✅ **Correct PropTypes**
 BookList.propTypes = {
   books: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,  // ✅ Fixed
+      description: PropTypes.string.isRequired,  
       owner: PropTypes.shape({
-        username: PropTypes.string,  // ✅ Optional
+        username: PropTypes.string, 
       }),
       createdAt: PropTypes.string.isRequired,
     })
