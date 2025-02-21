@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as bookService from '../../services/bookService';
 import { useParams } from "react-router-dom";
+import ReviewForm from '../ReviewForm/ReviewForm';
 
 const BookDetails = () => {
     const { bookId } = useParams();
@@ -20,6 +21,11 @@ const BookDetails = () => {
 
     if (!book) return <main>Loading...</main>;
 
+    const handleAddReview = async (reviewFormData) => {
+      const newReview = await bookService.createReview(bookId, reviewFormData);
+      setBook({ ...book, reviews: [...book.reviews, newReview] });
+    };
+
     return (
         <main>
           <section>
@@ -34,14 +40,18 @@ const BookDetails = () => {
             <p>{book.description}</p>
           </section>
           <section>
-            <h2>Comments</h2>
-            {!book.comments?.length && <p>There are no comments.</p>}
-            {book.comments?.map((comment) => (
-              <article key={comment._id}>
+            <h2>Reviews</h2>
+            <ReviewForm handleAddReview={handleAddReview}/>
+            {!book.reviews?.length && <p>There are no reviews.</p>}
+            {book.reviews?.map((review) => (
+              <article key={review._id}>
                 <header>
-                  <p>{`${comment.author?.username || 'Unknown'} posted on ${new Date(comment.createdAt).toLocaleDateString()}`}</p>
+                  <p>
+                    {`${review.author?.username || 'Unknown'} posted on
+                    ${new Date(review.createdAt).toLocaleDateString()}`}
+                    </p>
                 </header>
-                <p>{comment.text}</p>
+                <p>{review.text}</p>
               </article>
             ))}
           </section>
