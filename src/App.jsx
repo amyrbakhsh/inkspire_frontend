@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import NavBar from './components/NavBar/NavBar'
 import SignUpForm from './components/SignUpForm/SignUpForm'
@@ -14,8 +14,19 @@ import { UserContext } from './contexts/UserContext'
 
 import BookDetails from './components/BookDetails/BookDetails'
 
+import BookForm from './components/BookForm/BookForm';
+
 
 const App = () => {
+
+  const navigate = useNavigate();
+
+  const handleAddBook = async (bookFormData) => {
+    const newBook = await bookService.create(bookFormData);
+    console.log(newBook)
+    setBooks([newBook, ...books]);
+    navigate('/books');
+  };
   
   const { user } = useContext(UserContext)
   const [books, setBooks] = useState([])
@@ -33,6 +44,7 @@ const App = () => {
     <>
       <NavBar />
       <Routes>
+        <Route path='/books/new' element={<BookForm  handleAddBook={handleAddBook} />} />
         <Route path='/books' element={<BookList books={books} />} />
         <Route path='/books/:bookId' element={<BookDetails />} />
         <Route path='/' element={user ? <Dashboard /> : <Landing />} />

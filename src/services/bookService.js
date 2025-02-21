@@ -40,7 +40,26 @@ const show = async (bookId) => {
   }
 };
 
+const create = async (bookFormData) => {
+  try {
+    const res = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookFormData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
 export {
   index,
   show,
+  create
 };
