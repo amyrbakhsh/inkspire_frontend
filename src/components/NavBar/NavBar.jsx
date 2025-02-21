@@ -21,9 +21,9 @@ const NavBar = () => {
 					</li>
 					<li>
 						<Link to="/">Dashboard</Link>
-						<li><Link to='/books'>Books</Link></li>
-
 					</li>
+						<li><Link to='/books'>Books</Link></li>
+						<li><Link to='/books/new'>Add a Book</Link></li>
 				</ul>
 			) : (
 				<ul>
