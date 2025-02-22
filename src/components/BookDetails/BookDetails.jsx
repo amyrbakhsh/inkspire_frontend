@@ -1,11 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import * as bookService from '../../services/bookService';
 import { useParams } from "react-router-dom";
 import ReviewForm from '../ReviewForm/ReviewForm';
+import { UserContext } from '../../contexts/UserContext';
+import PropTypes from 'prop-types';
 
-const BookDetails = () => {
+const BookDetails = (props) => {
     const { bookId } = useParams();
+    const { user } = useContext(UserContext);
     const [book, setBook] = useState(null);
+
+    const handleDeleteBook = () => {
+      props.handleDeleteBook(bookId);
+    };
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -39,6 +46,7 @@ const BookDetails = () => {
             </header>
             <p>{book.description}</p>
           </section>
+          {book.owner._id === user._id && <button onClick={handleDeleteBook}>Delete</button>}
           <section>
             <h2>Reviews</h2>
             <ReviewForm handleAddReview={handleAddReview}/>
@@ -57,6 +65,10 @@ const BookDetails = () => {
           </section>
         </main>
     );
+};
+
+BookDetails.propTypes = {
+  handleDeleteBook: PropTypes.func.isRequired,
 };
 
 export default BookDetails;

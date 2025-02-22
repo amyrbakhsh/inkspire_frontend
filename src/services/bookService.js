@@ -72,9 +72,25 @@ const createReview = async (bookId, reviewFormData) => {
   }
 };
 
+//deleteBook function
+const deleteBook = async (bookId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${bookId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log('Error deleting book:', error);
+  }
+};
+
 export {
   index,
   show,
   create,
-  createReview
+  createReview,
+  deleteBook, // Export the deleteBook function
 };
