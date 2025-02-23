@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, use } from 'react';
 import * as bookService from '../../services/bookService';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import ReviewForm from '../ReviewForm/ReviewForm';
 import { UserContext } from '../../contexts/UserContext';
 
@@ -51,6 +51,7 @@ const BookDetails = (props) => {
             </header>
             <p>{book.description}</p>
           </section>
+          <Link to={`/books/${bookId}/edit`}>Edit</Link>
           {book.owner._id === user._id && <button onClick={handleDeleteBook}>Delete</button>}
           <section>
             <h2>Reviews</h2>

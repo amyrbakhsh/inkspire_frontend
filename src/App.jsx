@@ -12,7 +12,7 @@ import { useState, useEffect } from 'react'
 
 import { UserContext } from './contexts/UserContext'
 
-import BookDetails from './components/BookDetails/BookDetails'; // Restore this line
+import BookDetails from './components/BookDetails/BookDetails'; 
 
 import BookForm from './components/BookForm/BookForm';
 
@@ -31,6 +31,20 @@ const App = () => {
     navigate('/books');
 
   };
+
+  const handleUpdateBook = async (bookId, bookFormData) => {
+    try {
+      const updatedBook = await bookService.update(bookId, bookFormData);
+      if (!updatedBook) {
+        throw new Error('Failed to update book');
+      }
+      setBooks(books.map((book) => (book._id === bookId ? updatedBook : book)));
+      navigate(`/books/${bookId}`);
+    } catch (error) {
+      console.error('Error updating book:', error);
+    }
+  };
+
 
   
   const { user } = useContext(UserContext)
@@ -51,6 +65,7 @@ const App = () => {
         <Route path='/books/new' element={<BookForm handleAddBook={handleAddBook} />} />
         <Route path='/books' element={<BookList books={books} />} />
         <Route path='/books/:bookId' element={<BookDetails handleDeleteBook={handleDeleteBook} />} /> 
+        <Route path='/books/:bookId/edit' element={<BookForm handleUpdateBook={handleUpdateBook} />} />
         <Route path='/' element={user ? <Dashboard /> : <Landing />} />
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/sign-up' element={<SignUpForm />} />
