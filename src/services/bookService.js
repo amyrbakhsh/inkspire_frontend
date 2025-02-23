@@ -73,6 +73,26 @@ const createReview = async (bookId, reviewFormData) => {
   }
 };
 
+// DELETE Review Function
+const deleteReview = async (bookId, reviewId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${bookId}/reviews/${reviewId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to delete review');
+    }
+
+    return res.json();
+  } catch (error) {
+    console.log('Error deleting review:', error);
+  }
+};
+
 //deleteBook function
 const deleteBook = async (bookId) => {
   try {
@@ -96,7 +116,7 @@ const update = async (bookId, bookFormData) => {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-      body: bookFormData, /
+      body: bookFormData, 
     });
     return res.json();
   } catch (error) {
@@ -110,5 +130,6 @@ export {
   create,
   createReview,
   update,
-  deleteBook, // Export the deleteBook function
+  deleteBook,
+  deleteReview
 };

@@ -1,15 +1,13 @@
-import { useState, useEffect, useContext, use } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import * as bookService from '../../services/bookService';
 import { useParams, Link } from "react-router-dom";
 import ReviewForm from '../ReviewForm/ReviewForm';
 import { UserContext } from '../../contexts/UserContext';
 
-
 const BookDetails = (props) => {
     const { bookId } = useParams();
     const { user } = useContext(UserContext);
     const [book, setBook] = useState(null);
-    const [imageUrl, setImageUrl] = useState('');
 
     const handleDeleteBook = () => {
       props.handleDeleteBook(bookId);
@@ -19,7 +17,6 @@ const BookDetails = (props) => {
         const fetchBook = async () => {
             try {
                 const bookData = await bookService.show(bookId);
-                setImageUrl(bookData.image)
                 setBook(bookData);
             } catch (error) {
                 console.error('Error fetching book:', error);
@@ -35,15 +32,26 @@ const BookDetails = (props) => {
       setBook({ ...book, reviews: [...book.reviews, newReview] });
     };
 
+    // **New function to delete a review**
+    const handleDeleteReview = async (reviewId) => {
+      try {
+        await bookService.deleteReview(bookId, reviewId);
+        setBook({ 
+          ...book, 
+          reviews: book.reviews.filter(review => review._id !== reviewId)
+        });
+      } catch (error) {
+        console.error('Error deleting review:', error);
+      }
+    };
+
     return (
         <main>
           <section>
             <header>
               <p>{book.category?.toUpperCase()}</p>
               <h1>{book.title}</h1>
-              <img src={book.image} alt={book.title} referrerpolicy="no-referrer"/>
-
-
+              <img src={book.image} alt={book.title} referrerPolicy="no-referrer" />
               <p>
                 {`${book.owner?.username || 'Unknown'} posted on
                 ${new Date(book.createdAt).toLocaleDateString()}`}
@@ -61,11 +69,14 @@ const BookDetails = (props) => {
               <article key={review._id}>
                 <header>
                   <p>
-                    {`${review.author?.username || 'Unknown'} posted on
+                    {`${review.reviewer?.username || 'Unknown'} posted on
                     ${new Date(review.createdAt).toLocaleDateString()}`}
-                    </p>
+                  </p>
                 </header>
                 <p>{review.text}</p>
+                {review.owner._id === user._id && (
+                  <button onClick={() => handleDeleteReview(review._id)}>Delete Review</button>
+                )}
               </article>
             ))}
           </section>
