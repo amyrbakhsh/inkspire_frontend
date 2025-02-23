@@ -27,10 +27,11 @@ const App = () => {
 
   const handleAddBook = async (bookFormData) => {
     const newBook = await bookService.create(bookFormData);
-    console.log(newBook)
     setBooks([newBook, ...books]);
     navigate('/books');
+
   };
+
   
   const { user } = useContext(UserContext)
   const [books, setBooks] = useState([])
