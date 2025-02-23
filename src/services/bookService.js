@@ -88,10 +88,27 @@ const deleteBook = async (bookId) => {
   }
 };
 
+// Update an existing book
+const update = async (bookId, bookFormData) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${bookId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: bookFormData, /
+    });
+    return res.json();
+  } catch (error) {
+    console.log('Error updating book:', error);
+  }
+};
+
 export {
   index,
   show,
   create,
   createReview,
+  update,
   deleteBook, // Export the deleteBook function
 };
