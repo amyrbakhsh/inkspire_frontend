@@ -9,6 +9,8 @@ const BookForm = (props) => {
     category: '',
     image: '',
   });
+  const [ image, setImage ] = useState(null);
+  const [ imageUrl, setImageUrl] = useState('');
 
   const handleChange = (evt) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -18,9 +20,20 @@ const BookForm = (props) => {
     setFormData({ ...formData, image: evt.target.files[0] });
   };
 
+
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    props.handleAddBook(formData);
+
+    const data = new FormData()
+
+    data.append('title', formData.title)
+    data.append('description', formData.description)
+    data.append('category', formData.category)
+
+    data.append('image', formData.image)
+
+    props.handleAddBook(data);
   };
 
   return (
@@ -52,6 +65,7 @@ const BookForm = (props) => {
           value={formData.category}
           onChange={handleChange}
         >
+          <option disabled selected value> -- select an option -- </option>
           <option value='Fantasy'>Fantasy</option>
           <option value='Horror'>Horror</option>
           <option value='Science fiction'>Science fiction</option>
@@ -67,9 +81,11 @@ const BookForm = (props) => {
             name="image"
             id="image-input"
             onChange={handleFileChange}
+            accept='image/*'
         />
         <button type='submit'>SUBMIT</button>
       </form>
+      {imageUrl && <img src={imageUrl} alt='Uploaded image'/>}
     </main>
   );
 };

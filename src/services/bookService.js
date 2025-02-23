@@ -46,10 +46,11 @@ const create = async (bookFormData) => {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
       },
-      body: JSON.stringify(bookFormData),
+      body: bookFormData,
     });
+
     return res.json();
   } catch (error) {
     console.log(error);

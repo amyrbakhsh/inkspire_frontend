@@ -1,14 +1,15 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, use } from 'react';
 import * as bookService from '../../services/bookService';
 import { useParams } from "react-router-dom";
 import ReviewForm from '../ReviewForm/ReviewForm';
 import { UserContext } from '../../contexts/UserContext';
-import PropTypes from 'prop-types';
+
 
 const BookDetails = (props) => {
     const { bookId } = useParams();
     const { user } = useContext(UserContext);
     const [book, setBook] = useState(null);
+    const [imageUrl, setImageUrl] = useState('');
 
     const handleDeleteBook = () => {
       props.handleDeleteBook(bookId);
@@ -18,6 +19,7 @@ const BookDetails = (props) => {
         const fetchBook = async () => {
             try {
                 const bookData = await bookService.show(bookId);
+                setImageUrl(bookData.image)
                 setBook(bookData);
             } catch (error) {
                 console.error('Error fetching book:', error);
@@ -39,6 +41,9 @@ const BookDetails = (props) => {
             <header>
               <p>{book.category?.toUpperCase()}</p>
               <h1>{book.title}</h1>
+              <img src={book.image} alt={book.title} referrerpolicy="no-referrer"/>
+
+
               <p>
                 {`${book.owner?.username || 'Unknown'} posted on
                 ${new Date(book.createdAt).toLocaleDateString()}`}
@@ -65,10 +70,6 @@ const BookDetails = (props) => {
           </section>
         </main>
     );
-};
-
-BookDetails.propTypes = {
-  handleDeleteBook: PropTypes.func.isRequired,
 };
 
 export default BookDetails;
