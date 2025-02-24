@@ -10,7 +10,7 @@ const BookList = ({ books }) => {
           <article>
             <header>
               <h2>{book.title}</h2>
-              <img src={book.image} alt={book.title} referrerpolicy="no-referrer"/>
+              <img src={book.image} alt={book.title} referrerPolicy="no-referrer"/>
               <p>
                 {`${book.owner?.username || 'Unknown'} posted on 
                 ${new Date(book.createdAt).toLocaleDateString()}`}
