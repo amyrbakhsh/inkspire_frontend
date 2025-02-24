@@ -1,45 +1,62 @@
-import { Link } from 'react-router-dom'
-import { useContext } from 'react'
-
-import { UserContext } from '../../contexts/UserContext'
+import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 
 const NavBar = () => {
-	const { user, setUser } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext);
 
-    const handleSignOut = () => {
-        localStorage.removeItem('token')
-        setUser(null)
-    }
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    setUser(null);
+  };
 
-	return (
-		<nav>
-			{user ? (
-				<ul>
-					<li>Welcome, {user.username}</li>
-                    <li>
-						<Link to="/" onClick={handleSignOut}>Sign Out</Link>
-					</li>
-					<li>
-						<Link to="/">Landing</Link>
-					</li>
-						<li><Link to='/books'>Books</Link></li>
-						<li><Link to='/books/new'>Add a Book</Link></li>
-				</ul>
-			) : (
-				<ul>
-					<li>
-						<Link to="/sign-up">Sign Up</Link>
-					</li>
-                    <li>
-						<Link to="/sign-in">Sign In</Link>
-					</li>
-                    <li>
-						<Link to="/">Home</Link>
-					</li>
-				</ul>
-			)}
-		</nav>
-	)
-}
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">Book Collection</Link>
 
-export default NavBar
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto"> {/* ms-auto to align items to the right */}
+            {user ? (
+              <>
+                <li className="nav-item">
+                  <span className="navbar-text">Welcome, {user.username}</span>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/" onClick={handleSignOut}>Sign Out</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/">Landing</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/books">Books</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/books/new">Add a Book</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/sign-up">Sign Up</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/sign-in">Sign In</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/">Home</Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default NavBar;
