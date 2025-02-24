@@ -1,12 +1,14 @@
 // src/components/BookForm/BookForm.jsx
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as bookService from '../../services/bookService';
+import { UserContext } from '../../contexts/UserContext';
 
 const BookForm = (props) => {
   const { bookId } = useParams();
   const navigate = useNavigate();
+  const { user } = useContext(UserContext)
   
   const [formData, setFormData] = useState({
     title: '',
@@ -16,22 +18,27 @@ const BookForm = (props) => {
   });
   const [imageUrl, setImageUrl] = useState('');
 
+
+  
   // Fetch book details if editing
   useEffect(() => {
     const fetchBook = async () => {
       if (bookId) {
         const bookData = await bookService.show(bookId);
+        if (bookData.owner._id !== user._id) {
+          navigate(-1)
+        }
         setFormData({
           title: bookData.title,
           description: bookData.description,
           category: bookData.category,
           image: '', // Keeping image empty so user can upload a new one
         });
-        setImageUrl(bookData.image); // Load the existing image if available
+        setImageUrl(bookData.image); 
       }
     };
     fetchBook();
-  }, [bookId]);
+  }, [bookId, user._id]);
 
   const handleChange = (evt) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -61,7 +68,7 @@ const BookForm = (props) => {
       props.handleAddBook(data);
     }
   
-    navigate('/books'); // Redirect after submitting
+    navigate('/books'); 
   };
 
   return (
