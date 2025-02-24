@@ -20,7 +20,7 @@ const NavBar = () => {
 						<Link to="/" onClick={handleSignOut}>Sign Out</Link>
 					</li>
 					<li>
-						<Link to="/">Dashboard</Link>
+						<Link to="/">Landing</Link>
 					</li>
 						<li><Link to='/books'>Books</Link></li>
 						<li><Link to='/books/new'>Add a Book</Link></li>
