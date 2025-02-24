@@ -111,6 +111,7 @@ const deleteBook = async (bookId) => {
 // Update an existing book
 const update = async (bookId, bookFormData) => {
   try {
+
     const res = await fetch(`${BASE_URL}/${bookId}`, {
       method: 'PUT',
       headers: {

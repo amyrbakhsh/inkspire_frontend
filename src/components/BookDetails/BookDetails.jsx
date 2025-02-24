@@ -59,7 +59,7 @@ const BookDetails = (props) => {
             </header>
             <p>{book.description}</p>
           </section>
-          <Link to={`/books/${bookId}/edit`}>Edit</Link>
+          {book.owner._id === user._id && <Link to={`/books/${bookId}/edit`}>Edit</Link>}
           {book.owner._id === user._id && <button onClick={handleDeleteBook}>Delete</button>}
           <section>
             <h2>Reviews</h2>
