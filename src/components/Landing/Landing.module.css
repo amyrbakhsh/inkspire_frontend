@@ -1,0 +1,70 @@
+/* Book-themed styles */
+.landingBody {
+    background-color: #f5f0e1; 
+    color: #5a4630; 
+    font-family: 'Merriweather', serif;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .landingContainer {
+    margin-bottom: 40px;
+  }
+  
+  .landingTitle {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .landingDescription {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #8b6f47;
+  }
+  
+  /* Book Grid */
+  .bookGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* Book Card */
+  .bookCard {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .bookCard:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Book Image */
+  .bookCover {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  /* Book Title */
+  .bookTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #5a4630;
+  }
+  
+  /* Message for no books */
+  .noBooks {
+    font-size: 18px;
+    font-weight: bold;
+    color: #8b6f47;
+  }
+  

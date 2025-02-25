@@ -1,14 +1,13 @@
-// src/components/BookForm/BookForm.jsx
-
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as bookService from '../../services/bookService';
 import { UserContext } from '../../contexts/UserContext';
+import styles from "./BookForm.module.css"; // Import new styles
 
 const BookForm = (props) => {
   const { bookId } = useParams();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -18,23 +17,28 @@ const BookForm = (props) => {
   });
   const [imageUrl, setImageUrl] = useState('');
 
-
-  
-  // Fetch book details if editing
   useEffect(() => {
     const fetchBook = async () => {
       if (bookId) {
         const bookData = await bookService.show(bookId);
-        if (bookData.owner._id !== user._id) {
-          navigate(-1)
+        if (!bookData || bookData.owner._id !== user._id) {
+          navigate(-1);
+          return;
         }
         setFormData({
           title: bookData.title,
           description: bookData.description,
           category: bookData.category,
-          image: '', // Keeping image empty so user can upload a new one
+          image: '',
         });
-        setImageUrl(bookData.image); 
+        setImageUrl(bookData.image);
+      } else {
+        setFormData({
+          title: '',
+          description: '',
+          category: '',
+          image: '',
+        });
       }
     };
     fetchBook();
@@ -51,81 +55,85 @@ const BookForm = (props) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    const data = new FormData()
-    data.append('title', formData.title)
-    data.append('description', formData.description)
-    data.append('category', formData.category)
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('description', formData.description);
+    data.append('category', formData.category);
 
-    // Only append the image if the user selected one
     if (formData.image) {
       data.append('image', formData.image);
     }
   
-    // If we have a bookId, update the book, otherwise create a new one
     if (bookId) {
       props.handleUpdateBook(bookId, data);
     } else {
       props.handleAddBook(data);
     }
   
-    navigate('/books'); 
+    navigate('/books');
   };
 
   return (
-    <main>
-      <h1>{bookId ? 'Edit Book' : 'New Book'}</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='title-input'>Title</label>
-        <input
-          required
-          type='text'
-          name='title'
-          id='title-input'
-          value={formData.title}
-          onChange={handleChange}
-        />
-        
-        <label htmlFor='description-input'>Description</label>
-        <textarea
-          required
-          name='description'
-          id='description-input'
-          value={formData.description}
-          onChange={handleChange}
-        />
+    <main className={styles.container}>
+      <div className={styles.formContainer}>
+        <h1>{bookId ? 'Edit Book' : 'New Book'}</h1>
 
-        <label htmlFor='category-input'>Category</label>
-        <select
-          required
-          name='category'
-          id='category-input'
-          value={formData.category}
-          onChange={handleChange}
-        >
-          <option disabled value=""> -- select an option -- </option>
-          <option value='Fantasy'>Fantasy</option>
-          <option value='Horror'>Horror</option>
-          <option value='Science fiction'>Science fiction</option>
-          <option value='Thriller'>Thriller</option>
-          <option value='Mystery'>Mystery</option>
-          <option value='Biography'>Biography</option>
-          <option value='Graphic novel'>Graphic novel</option>
-        </select>
+        {bookId && !formData.title && <p>Loading book details...</p>}
+        {bookId && !formData.title && <p>Book not found.</p>}
+        <form onSubmit={handleSubmit}>
+          <label htmlFor='title-input'>Title</label>
+          <input
+            required
+            type='text'
+            name='title'
+            id='title-input'
+            value={formData.title}
+            onChange={handleChange}
+          />
+          
+          <label htmlFor='description-input'>Description</label>
+          <textarea
+            required
+            name='description'
+            id='description-input'
+            value={formData.description}
+            onChange={handleChange}
+          />
 
-        <label htmlFor="image-input">Image</label>
-        <input
-          type="file"
-          name="image"
-          id="image-input"
-          onChange={handleFileChange}
-          accept='image/*'
-        />
+          <label htmlFor='category-input'>Category</label>
+          <select
+            required
+            name='category'
+            id='category-input'
+            value={formData.category}
+            onChange={handleChange}
+          >
+            <option disabled value=""> -- select an option -- </option>
+            <option value='Fantasy'>Fantasy</option>
+            <option value='Horror'>Horror</option>
+            <option value='Science fiction'>Science fiction</option>
+            <option value='Thriller'>Thriller</option>
+            <option value='Mystery'>Mystery</option>
+            <option value='Biography'>Biography</option>
+            <option value='Graphic novel'>Graphic novel</option>
+          </select>
 
-        {/* Show current image if editing */}
-        {imageUrl && !formData.image && <img src={imageUrl} alt='Current book' referrerPolicy="no-referrer"/>}
+          <label htmlFor="image-input">Image</label>
+          <input
+            type="file"
+            name="image"
+            id="image-input"
+            onChange={handleFileChange}
+            accept='image/*'
+          />
 
-        <button type='submit'>{bookId ? 'Update Book' : 'Add Book'}</button>
-      </form>
+          {imageUrl && !formData.image && (
+            <img src={imageUrl} alt='Current book' referrerPolicy="no-referrer"/>
+          )}
+
+          <button type='submit'>{bookId ? 'Update Book' : 'Add Book'}</button>
+        </form>
+      </div>
     </main>
   );
 };
