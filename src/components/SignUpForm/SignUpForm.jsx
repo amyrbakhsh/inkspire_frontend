@@ -1,8 +1,8 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom'; // Fixed import here
+import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../services/authService';
 import { UserContext } from '../../contexts/UserContext';
-import './SignUpForm.css';
+import styles from './SignUpForm.module.css';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -13,8 +13,6 @@ const SignUpForm = () => {
     password: '',
     passwordConf: '',
   });
-
-  const { username, password, passwordConf } = formData;
 
   const handleChange = (evt) => {
     setMessage('');
@@ -32,77 +30,51 @@ const SignUpForm = () => {
     }
   };
 
-  const isFormInvalid = () => {
-    return !(username && password && password === passwordConf);
-  };
-
   return (
-    <main className="signup-container">
-      <h1 className="signup-heading">Sign Up</h1>
-      {message && <p className="message-box">{message}</p>}
-      <form className="signup-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          {/* Input comes before label for the floating effect */}
-          <input
-            className="form-input"
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={handleChange}
-            placeholder=" " // Blank placeholder required for :placeholder-shown
-            required
-          />
-          <label className="form-label" htmlFor="username">
-            Username:
-          </label>
-        </div>
-
-        <div className="form-group">
-          <input
-            className="form-input"
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-            placeholder=" "
-            required
-          />
-          <label className="form-label" htmlFor="password">
-            Password:
-          </label>
-        </div>
-
-        <div className="form-group">
-          <input
-            className="form-input"
-            type="password"
-            id="passwordConf"
-            name="passwordConf"
-            value={passwordConf}
-            onChange={handleChange}
-            placeholder=" "
-            required
-          />
-          <label className="form-label" htmlFor="passwordConf">
-            Confirm Password:
-          </label>
-        </div>
-
-        <div className="button-group">
-          <button className="submit-btn" disabled={isFormInvalid()}>
-            Sign Up
-          </button>
-          <button
-            className="cancel-btn"
-            type="button"
-            onClick={() => navigate('/')}
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
+    <main className={styles.container}>
+      <div className={styles.formSection}>
+        <form onSubmit={handleSubmit}>
+          <h2>Sign Up</h2>
+          {message && <p className={styles.errorMessage}>{message}</p>}
+          <div className={styles.formGroup}>
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              value={formData.username}
+              name="username"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              value={formData.password}
+              name="password"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="passwordConf">Confirm Password:</label>
+            <input
+              type="password"
+              id="passwordConf"
+              value={formData.passwordConf}
+              name="passwordConf"
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={styles.buttonGroup}>
+            <button type="submit" className={styles.submitBtn}>Sign Up</button>
+            <button type="button" className={styles.cancelBtn} onClick={() => navigate('/')}>Cancel</button>
+          </div>
+        </form>
+      </div>
     </main>
   );
 };

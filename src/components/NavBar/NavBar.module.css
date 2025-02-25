@@ -1,0 +1,58 @@
+/* src/components/NavBar/NavBar.module.css */
+
+.navbar {
+    background-color: #f4e1c8; 
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: "Merriweather", serif; 
+  }
+  
+  /* Container for spacing */
+  .container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Logo */
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #5a3e2b; 
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .logo:hover {
+    color: #8b6f47; 
+  }
+  
+  /* Navigation links */
+  .navLinks {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navItem {
+    color: #5a3e2b;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .navItem:hover {
+    color: #8b6f47; 
+  }
+  
+  /* User greeting */
+  .navText {
+    font-size: 18px;
+    font-weight: 600;
+    color: #8b6f47;
+  }
+  

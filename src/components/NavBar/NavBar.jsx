@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
+import styles from './NavBar.module.css'; // Import CSS Module
 
 const NavBar = () => {
   const { user, setUser } = useContext(UserContext);
@@ -11,48 +12,26 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Book Collection</Link>
+    <nav className={styles.navbar}>
+      <div className={styles.container}>
+        <Link className={styles.logo} to="/">📚 Inkspire</Link>
 
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        <div className={styles.navLinks}>
+          <Link className={styles.navItem} to="/">Home</Link>
+          <Link className={styles.navItem} to="/books">Books</Link>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto"> {/* ms-auto to align items to the right */}
-            {user ? (
-              <>
-                <li className="nav-item">
-                  <span className="navbar-text">Welcome, {user.username}</span>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/" onClick={handleSignOut}>Sign Out</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/">Landing</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/books">Books</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/books/new">Add a Book</Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/sign-up">Sign Up</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/sign-in">Sign In</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/">Home</Link>
-                </li>
-              </>
-            )}
-          </ul>
+          {user ? (
+            <>
+              <span className={styles.navText}>Welcome, {user.username}</span>
+              <Link className={styles.navItem} to="/books/new">Add a Book</Link>
+              <Link className={styles.navItem} to="/" onClick={handleSignOut}>Sign Out</Link>
+            </>
+          ) : (
+            <>
+              <Link className={styles.navItem} to="/sign-up">Sign Up</Link>
+              <Link className={styles.navItem} to="/sign-in">Sign In</Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
@@ -60,3 +39,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+

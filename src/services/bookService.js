@@ -29,14 +29,15 @@ const show = async (bookId) => {
 
     // Check if the response is successful
     if (!res.ok) {
-      throw new Error('Failed to fetch book');
+      console.error('Failed to fetch book:', res.statusText);
+      return null; // Return null if the book cannot be fetched
     }
 
     return res.json();
   } catch (error) {
     console.log('Error fetching book:', error);
-    // Returning null in case of an error
-    return null;
+    // Returning an empty object in case of an error
+    return {};
   }
 };
 

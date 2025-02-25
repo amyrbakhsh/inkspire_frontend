@@ -1,0 +1,119 @@
+/* src/components/BookDetails/BookDetails.module.css */
+
+/* Main Container */
+.container {
+    height: 100%;
+    display: flex;
+    overflow: auto;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--background);
+  }
+  
+  /* Book Details Section */
+  .container > section {
+    width: 100%;
+    padding: 21px;
+    display: flex;
+    max-width: 800px;
+    flex-direction: column;
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  /* Book Image */
+  .container img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title & Author */
+  .container h1 {
+    margin: 10px 0;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--primary);
+  }
+  
+  .container header div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  /* Buttons (Edit & Delete) */
+  .container header button,
+  .container header a {
+    font-size: 14px;
+    font-weight: 600;
+    background: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .container header button:hover,
+  .container header a:hover {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  /* Reviews Section */
+  .review-section {
+    width: 100%;
+    max-width: 800px;
+    background: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .review-section h2 {
+    color: var(--primary);
+    font-size: 24px;
+  }
+  
+  /* Reviews */
+  .review-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  
+  .review-container article {
+    padding: 10px;
+    border-radius: 5px;
+    background: #fff8ee;
+    border: 1px solid var(--border);
+  }
+  
+  .review-container p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-dark);
+  }
+  
+  /* Review Edit/Delete Buttons */
+  .review-container button {
+    background-color: var(--primary);
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .review-container button:hover {
+    background-color: #8b5e34;
+  }
+  
