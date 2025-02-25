@@ -31,6 +31,7 @@ const App = () => {
   
   const { user } = useContext(UserContext)
   const [books, setBooks] = useState([])
+  const [trigger, setTrigger] = useState(false)
 
   useEffect(() => {
     const fetchAllBooks = async () => {
@@ -39,7 +40,7 @@ const App = () => {
       setBooks(booksData)
     }
     if (user) fetchAllBooks()
-  }, [user])
+  }, [user, trigger])
 
   return (
     <>
@@ -47,7 +48,7 @@ const App = () => {
       <Routes>
         <Route path='/books/new' element={<BookForm  handleAddBook={handleAddBook} />} />
         <Route path='/books' element={<BookList books={books} />} />
-        <Route path='/books/:bookId' element={<BookDetails />} />
+        <Route path='/books/:bookId' element={<BookDetails trigger={trigger} setTrigger={setTrigger} />} />
         <Route path='/' element={user ? <Landing /> : <Landing />} />
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/sign-up' element={<SignUpForm />} />

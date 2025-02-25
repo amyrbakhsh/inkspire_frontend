@@ -1,17 +1,27 @@
 import { useState, useEffect, useContext } from 'react';
 import * as bookService from '../../services/bookService';
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import ReviewForm from '../ReviewForm/ReviewForm';
 import { UserContext } from '../../contexts/UserContext';
+
+
 
 const BookDetails = (props) => {
     const { bookId } = useParams();
     const { user } = useContext(UserContext);
     const [book, setBook] = useState(null);
 
-    const handleDeleteBook = () => {
-      props.handleDeleteBook(bookId);
-    };
+    const navigate = useNavigate()
+
+const handleDeleteBook = async () => {
+  try {
+    await bookService.deleteBook(bookId);
+    props.setTrigger(!props.trigger)
+    navigate('/books')
+  } catch (error) {
+    console.error('Error deleting book:', error);
+  }
+};
 
     useEffect(() => {
         const fetchBook = async () => {
