@@ -33,6 +33,19 @@ const App = () => {
   const [books, setBooks] = useState([])
   const [trigger, setTrigger] = useState(false)
 
+  const handleUpdateBook = async (bookId, bookFormData) => {
+    try {
+      const updatedBook = await bookService.update(bookId, bookFormData);
+      if (!updatedBook) {
+        throw new Error('Failed to update book');
+      }
+      setBooks(books.map((book) => (book._id === bookId ? updatedBook : book)));
+      navigate(`/books/${bookId}`);
+    } catch (error) {
+      console.error('Error updating book:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchAllBooks = async () => {
       const booksData = await bookService.index()
@@ -47,6 +60,7 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path='/books/new' element={<BookForm  handleAddBook={handleAddBook} />} />
+        <Route path='/books/:bookId/edit' element={<BookForm  handleUpdateBook={handleUpdateBook} />} />
         <Route path='/books' element={<BookList books={books} />} />
         <Route path='/books/:bookId' element={<BookDetails trigger={trigger} setTrigger={setTrigger} />} />
         <Route path='/' element={user ? <Landing /> : <Landing />} />

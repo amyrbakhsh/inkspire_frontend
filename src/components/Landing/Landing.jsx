@@ -14,28 +14,26 @@ const Landing = () => {
   }, []);
   
   return (
-    <div className="landing-body container">
-      <div className="landing-container text-center my-4">
-        <h1 className="landing-title display-4">Welcome to Our Book Collection</h1>
-        <h2 className="landing-description lead text-muted">
+    <div className="landing-body">
+      <div className="landing-container">
+        <h1 className="landing-title">Welcome to Our Book Collection</h1>
+        <h2 className="landing-description">
           Discover amazing books and track your favorite reads.
         </h2>
       </div>
-
-      {/* Book Covers Section */}
-      <div className="book-covers-container d-flex justify-content-center overflow-auto py-4">
-        <div className="book-covers-scroll d-flex gap-3">
+      <div className="book-covers-container">
+        <div className="book-covers-scroll">
           {books.length > 0 ? (
             books.map((book) => (
-              <div key={book._id} className="book-item text-center">
+              <div key={book._id} className="book-item">
                 <div className="book-content">
                   <img
                     src={book.image}
                     alt={book.title}
-                    className="book-cover img-fluid rounded shadow-sm"
+                    className="book-cover"
                     referrerPolicy="no-referrer"
                   />
-                  <h3 className="book-title mt-2">{book.title}</h3>
+                  <h3 className="book-title">{book.title}</h3>
                 </div>
               </div>
             ))
