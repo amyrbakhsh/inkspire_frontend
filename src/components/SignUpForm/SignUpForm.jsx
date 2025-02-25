@@ -1,12 +1,12 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router';
-import { signUp } from '../../services/authService'
-
-import { UserContext } from '../../contexts/UserContext'
+import { useNavigate } from 'react-router-dom'; // Fixed import here
+import { signUp } from '../../services/authService';
+import { UserContext } from '../../contexts/UserContext';
+import './SignUpForm.css';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext)
+  const { setUser } = useContext(UserContext);
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     username: '',
@@ -24,12 +24,11 @@ const SignUpForm = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     try {
-        // sends formData to signUp service
-        const newUser = await signUp(formData)
-        setUser(newUser)
-        navigate('/')
+      const newUser = await signUp(formData);
+      setUser(newUser);
+      navigate('/');
     } catch (err) {
-        setMessage(err.message)
+      setMessage(err.message);
     }
   };
 
@@ -38,50 +37,74 @@ const SignUpForm = () => {
   };
 
   return (
-    <main>
-      <h1>Sign Up</h1>
-      <p>{message}</p>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='username'>Username:</label>
+    <main className="signup-container">
+      <h1 className="signup-heading">Sign Up</h1>
+      {message && <p className="message-box">{message}</p>}
+      <form className="signup-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          {/* Input comes before label for the floating effect */}
           <input
-            type='text'
-            id='name'
+            className="form-input"
+            type="text"
+            id="username"
+            name="username"
             value={username}
-            name='username'
             onChange={handleChange}
+            placeholder=" " // Blank placeholder required for :placeholder-shown
             required
           />
+          <label className="form-label" htmlFor="username">
+            Username:
+          </label>
         </div>
-        <div>
-          <label htmlFor='password'>Password:</label>
+
+        <div className="form-group">
           <input
-            type='password'
-            id='password'
+            className="form-input"
+            type="password"
+            id="password"
+            name="password"
             value={password}
-            name='password'
             onChange={handleChange}
+            placeholder=" "
             required
           />
+          <label className="form-label" htmlFor="password">
+            Password:
+          </label>
         </div>
-        <div>
-          <label htmlFor='confirm'>Confirm Password:</label>
+
+        <div className="form-group">
           <input
-            type='password'
-            id='confirm'
+            className="form-input"
+            type="password"
+            id="passwordConf"
+            name="passwordConf"
             value={passwordConf}
-            name='passwordConf'
             onChange={handleChange}
+            placeholder=" "
             required
           />
+          <label className="form-label" htmlFor="passwordConf">
+            Confirm Password:
+          </label>
         </div>
-        <div>
-          <button disabled={isFormInvalid()}>Sign Up</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+
+        <div className="button-group">
+          <button className="submit-btn" disabled={isFormInvalid()}>
+            Sign Up
+          </button>
+          <button
+            className="cancel-btn"
+            type="button"
+            onClick={() => navigate('/')}
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </main>
   );
 };
 
-export default SignUpForm
+export default SignUpForm;
